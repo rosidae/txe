@@ -7,5 +7,6 @@
 int main() {
   clearscreen();
   wait_for_input();
+  printf("You pressed: %c\n", *(char*)get_last_output());
   return 0;
 }

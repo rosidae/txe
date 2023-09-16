@@ -1,9 +1,13 @@
-// tux.h - terminal user interface/terminal user experience
+// tux.h - terminal user interface/terminal user experience (tui doesn't roll off the tongue)
 #pragma once
 #include "geo.h"
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <termios.h>
+#include <stdlib.h>
+
+void* __glbuffer = NULL;
 
 struct v2 getxy() {
   struct winsize w;
@@ -16,5 +20,19 @@ void clearscreen() {
 }
 
 void wait_for_input() {
-  getchar();
+  int gc = getchar();
+  __glbuffer = &gc;
 }
+
+void* get_last_output() {
+  return __glbuffer;
+}
+
+struct box {
+  struct v2 top_left;
+  struct v2 bottom_right;
+  struct v2 center_point;
+  struct v2 size;
+  char*     title;
+};
+
